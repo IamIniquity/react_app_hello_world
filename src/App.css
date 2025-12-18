@@ -1,0 +1,20 @@
+.app {
+  text-align: center;
+  padding: 30px;
+}
+
+h1 {
+  color: whitesmoke;
+  margin-bottom: 30px;
+}
+
+h2 {
+  color: #060606;
+  margin-bottom: 20px;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
