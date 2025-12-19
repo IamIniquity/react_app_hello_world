@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Счетчик и Аутентификация</title>
+    </head>
+    <body>  
+        <header>
+            <h1>Сайт</h1>
+            <p>Счетчик и форма аутентификации</p>
+        </header>
+        <main>
+            <article>
+                <div>
+                    <h2>Кнопки счетчика</h2>
+                    <button onclick="countInc()">+1 (onclick)</button>
+                    <p><span id="count">0</span></p>
+                    <button id="decreaseBtn">-1 (listener)</button>
+                </div>
+                <div>
+                    <h2>Форма аутентификации</h2>
+                    <form id="loginForm">
+                        <label for="username">Имя пользователя:</label><br>
+                        <input type="text" id="username" name="username" required><br>
+                        <label for="password">Пароль:</label><br>
+                        <input type="password" id="password" name="password" required><br>
+                        <label>
+                            <input type="checkbox" id="rememberMe"> Запомнить меня
+                        </label><br><br>
+                        <button type="submit">Войти</button>
+                        <button type="button" id="clearFormBtn">Очистить форму</button><br>
+                        <p id="result"></p>
+                    </form>
+                </div>
+            </article>
+        </main>
+        <script>
+
+            // Счётчик
+            var count = 0;
+            const countElement = document.getElementById('count');
+            
+            // Загрузка счетчика из localStorage
+            const savedCount = localStorage.getItem('counter');
+            if (savedCount !== null) {
+                count = parseInt(savedCount);
+                countElement.textContent = count;
+            }
+            
+            function updateCounter() {
+                countElement.textContent = count;
+                localStorage.setItem('counter', count);
+            }
+            
+            // 2. Кнопка +1
+            function countInc() {
+                count += 1;
+                updateCounter();
+            };
+            
+            // 3. Кнопка -1
+            document.getElementById('decreaseBtn').addEventListener('click', function() {
+                count -= 1;
+                updateCounter();
+            });
+
+            // 4. Форма аутентификации
+            // Получение элементов формы
+            const form = document.getElementById('loginForm');
+            const usernameField = document.getElementById('username');
+            const passwordField = document.getElementById('password');
+            const rememberMeCheckbox = document.getElementById('rememberMe');
+            const resultMessage = document.getElementById('result');
+            const clearFormBtn = document.getElementById('clearFormBtn');
+
+            // 5. Очистка данных формы
+            clearFormBtn.addEventListener('click', function() {
+                usernameField.value = '';
+                passwordField.value = '';
+                resultMessage.textContent = '';
+                resultMessage.style.color = '';
+                rememberMeCheckbox.checked = false;
+            });
+
+            // 8. Автоподстановка
+            // Функция для автозаполнения формы
+            function autoFillForm() {
+                const storedUsername = localStorage.getItem('username');
+                const storedPassword = localStorage.getItem('password');
+                const isRemembered = localStorage.getItem('rememberMe') === 'true';
+                
+                console.log('Пытаемся автозаполнить:', { storedUsername, storedPassword, isRemembered });
+                
+                if (storedUsername && storedPassword && isRemembered) {
+                    usernameField.value = storedUsername;
+                    passwordField.value = storedPassword;
+                    rememberMeCheckbox.checked = true;
+                    console.log('Форма автозаполнена!');
+                }
+            }
+            
+            // Вызываем автозаполнение при загрузке страницы
+            window.addEventListener('load', function() {
+                setTimeout(autoFillForm, 100);
+            });
+
+            // 6. Отправка формы через listener submit
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const username = usernameField.value;
+                const password = passwordField.value;
+                const rememberMe = rememberMeCheckbox.checked;
+
+                // 7. Валидация
+                if (username === 'admin' && password === 'admin') {
+                    resultMessage.textContent = 'Успешная авторизация!';
+                    resultMessage.style.color = 'green';
+                    
+                    // 8. Сохранение данных в localStorage
+                    if (rememberMe) {
+                        localStorage.setItem('username', username);
+                        localStorage.setItem('password', password);
+                        localStorage.setItem('rememberMe', 'true');
+                        console.log('Данные сохранены в localStorage с флагом "запомнить"');
+                    } else {
+                        // Удаляем сохраненные данные, если флажок не отмечен
+                        localStorage.removeItem('username');
+                        localStorage.removeItem('password');
+                        localStorage.removeItem('rememberMe');
+                        console.log('Данные удалены из localStorage');
+                    }
+                } else {
+                    resultMessage.textContent = 'Неверное имя пользователя или пароль.';
+                    resultMessage.style.color = 'red';
+                    
+                    // При неудачной попытке входа тоже удаляем сохраненные данные
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('password');
+                    localStorage.removeItem('rememberMe');
+                }
+            });
+            
+            // Дополнительно: обработка изменения чекбокса "Запомнить меня"
+            rememberMeCheckbox.addEventListener('change', function() {
+                if (!this.checked) {
+                    // Если пользователь снял флажок, удаляем данные
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('password');
+                    localStorage.removeItem('rememberMe');
+                    console.log('Пользователь снял флажок "Запомнить меня", данные удалены');
+                }
+            });
+	    //1. Уведомление
+	    alert("Страница полностью загрузилась")
+        </script>
+    </body>
+</html>
