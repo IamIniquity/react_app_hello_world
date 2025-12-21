@@ -1,77 +1,52 @@
 import React, { useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addFeedback } from '../redux/slices/apiSlice';
 
 const FeedbackForm = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user); // Берем пользователя
   const [message, setMessage] = useState('');
   const [rating, setRating] = useState(5);
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
     
-    // Валидация
-    if (!name || !email || !message) {
-      alert('Заполните все обязательные поля!');
+    if (!message) {
+      alert('Введите сообщение!');
       return;
     }
     
-    // Получаем существующие отзывы из localStorage
-    const existingFeedback = JSON.parse(localStorage.getItem('feedback') || '[]');
-    
-    // Добавляем новый отзыв
-    const newFeedback = {
-      id: Date.now(),
-      name,
-      email,
+    // Данные для отправки на сервер
+    const feedbackData = {
+      name: user?.name || user?.username || 'Аноним',
+      email: user?.email || 'anon@example.com',
       message,
       rating,
-      date: new Date().toLocaleString(),
+      date: new Date().toISOString(),
     };
     
-    const updatedFeedback = [...existingFeedback, newFeedback];
-    localStorage.setItem('feedback', JSON.stringify(updatedFeedback));
+    // Отправляем на сервер через Redux
+    dispatch(addFeedback(feedbackData))
+      .then(() => {
+        alert('Отзыв отправлен на сервер!');
+        setMessage('');
+        setRating(5);
+      })
+      .catch(() => {
+        alert('Ошибка при отправке отзыва');
+      });
     
-    alert('Спасибо за ваш отзыв!');
-    
-    // Очищаем форму
-    setName('');
-    setEmail('');
-    setMessage('');
-    setRating(5);
-    
-  }, [name, email, message, rating]);
+  }, [message, rating, user, dispatch]);
 
   const handleClear = useCallback(() => {
-    setName('');
-    setEmail('');
     setMessage('');
     setRating(5);
   }, []);
 
   return (
     <form onSubmit={handleSubmit} className="feedback-form">
-      <h2>Форма обратной связи</h2>
+      <h2>Форма обратной связи (REST API)</h2>
       
-      <div>
-        <label>Ваше имя *:</label>
-        <input 
-          type="text" 
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required 
-        />
-      </div>
-
-      <div>
-        <label>Email *:</label>
-        <input 
-          type="email" 
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required 
-        />
-      </div>
-
       <div>
         <label>Оценка (1-5):</label>
         <select 
@@ -91,13 +66,16 @@ const FeedbackForm = () => {
           onChange={(e) => setMessage(e.target.value)}
           required 
           rows="4"
+          placeholder="Ваш отзыв..."
         />
       </div>
 
-      <button type="submit">Отправить отзыв</button>
-      <button type="button" onClick={handleClear}>
-        Очистить форму
-      </button>
+      <div className="form-buttons">
+        <button type="submit">Отправить на сервер</button>
+        <button type="button" onClick={handleClear}>
+          Очистить
+        </button>
+      </div>
     </form>
   );
 };

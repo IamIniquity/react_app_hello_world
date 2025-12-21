@@ -165,6 +165,12 @@ body.dark-theme .container {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  background-color: white;
+  color: #333;
+}
+
+.auth-form input::placeholder {
+  color: #666;
 }
 
 .auth-form button {
@@ -201,6 +207,25 @@ body.dark-theme .container {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-family: inherit;
+  background-color: white;
+  color: #333;
+}
+
+.feedback-form textarea::placeholder {
+  color: #666;
+}
+
+.edit-profile-form input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  color: #333;
+}
+
+.edit-profile-form input::placeholder {
+  color: #666;
 }
 
 .feedback-list {
@@ -271,59 +296,6 @@ body.dark-theme .container {
 .user-profile {
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: #333;
-}
-
-.logout-btn {
-  padding: 5px 10px;
-  background: #ff4444;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.logout-btn:hover {
-  background: #cc0000;
-}
-
-.login-required {
-  max-width: 500px;
-  margin: 50px auto;
-  padding: 30px;
-  text-align: center;
-}
-
-.login-container {
-  margin-top: 30px;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background: #f5f5f5;
-}
-
-/* Выравнивание чекбокса "Запомнить меня" */
-.auth-form label {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.auth-form label input[type="checkbox"] {
-  width: auto;
-  margin-right: 8px;
-  margin-bottom: 0;
-}
-
-/* Стили для профиля пользователя */
-.user-profile {
-  display: flex;
-  align-items: center;
   gap: 15px;
   color: #333;
   font-size: 16px;
@@ -371,4 +343,73 @@ body.dark-theme .logout-btn {
 
 body.dark-theme .logout-btn:hover {
   background: #c53030;
+}
+
+body.dark-theme .auth-form input,
+body.dark-theme .edit-profile-form input,
+body.dark-theme .feedback-form textarea {
+  background-color: #2d3748;
+  color: #e2e8f0;
+  border-color: #4a5568;
+}
+
+body.dark-theme .auth-form input::placeholder,
+body.dark-theme .edit-profile-form input::placeholder,
+body.dark-theme .feedback-form textarea::placeholder {
+  color: #a0aec0;
+}
+
+.delete-btn {
+  padding: 4px 8px;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.delete-btn:hover {
+  background: #ff4757;
+}
+
+.login-required {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px;
+  text-align: center;
+}
+
+.login-container {
+  margin-top: 30px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+/* Чекбокс */
+.auth-form label {
+  display: flex;
+  align-items: center;
+}
+
+.auth-form label input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+/* Для лабораторной 6 */
+.api-sections {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.wide {
+  width: 100%;
 }
