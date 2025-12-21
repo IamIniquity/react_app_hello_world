@@ -1,7 +1,10 @@
+import UserProfile from '../components/UserProfile';
+
 const Header = () => {
   return (
     <header className="header">
-      <h1>Навигация по лабораторным</h1>
+      <h1>Лабораторные работы по React</h1>
+      <UserProfile />
     </header>
   );
 };

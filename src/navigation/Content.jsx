@@ -2,6 +2,10 @@ import { useLocation } from 'react-router-dom';
 import Lab2App from '../Lab2App';
 import CounterWithEffects from '../components/CounterWithEffects';
 import ReduxCounter from '../components/ReduxCounter';
+import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
+import FeedbackForm from '../components/FeedbackForm'; // Добавляем импорт
+import FeedbackList from '../components/FeedbackList'; // Добавляем импорт
 
 const Content = () => {
   const location = useLocation();
@@ -73,6 +77,19 @@ const Content = () => {
       </div>
     );
   }
+
+  // Лаб5
+  if (location.pathname === '/lab5') {
+  return <Lab5App />;
+}
+
+  // Если не найден путь
+  return (
+    <div className="content">
+      <h2>Страница не найдена</h2>
+      <p>Путь "{location.pathname}" не существует</p>
+    </div>
+  );
 };
 
 export default Content;

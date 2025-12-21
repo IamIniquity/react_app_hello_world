@@ -67,7 +67,6 @@ button:focus-visible {
   }
 }
 
-/* Базовые стили для body */
 body {
   transition: background-color 0.3s, color 0.3s;
   margin: 0;
@@ -78,13 +77,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Стили для светлой темы (по умолчанию) */
 body:not(.dark-theme) {
   background-color: #ffffff;
   color: #333333;
 }
 
-/* Стили для темной темы */
 body.dark-theme {
   background-color: #1a1a1a;
   color: #ffffff;
@@ -139,4 +136,239 @@ body.dark-theme .container {
   background: #4a5568 !important;
   border-color: #718096 !important;
   color: #e2e8f0 !important;
+}
+
+.lab5-forms {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.form-section {
+  flex: 1;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.auth-form div {
+  margin-bottom: 15px;
+}
+
+.auth-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.auth-form button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 8px 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.auth-form button[type="button"] {
+  background: #6c757d;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.feedback-section {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.feedback-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+}
+
+.feedback-list {
+  width: 100%;
+}
+
+.feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.clear-all-btn {
+  padding: 5px 10px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.feedback-item {
+  border: 1px solid #eee;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  background: #f9f9f9;
+}
+
+.feedback-rating {
+  color: #ffc107;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.feedback-message {
+  margin: 10px 0;
+  font-style: italic;
+}
+
+.feedback-author {
+  font-weight: bold;
+  color: #666;
+}
+
+.feedback-date {
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
+}
+
+.lab5-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.welcome-message {
+  background: #d4edda;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  color: #155724;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #333;
+}
+
+.logout-btn {
+  padding: 5px 10px;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #cc0000;
+}
+
+.login-required {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px;
+  text-align: center;
+}
+
+.login-container {
+  margin-top: 30px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+/* Выравнивание чекбокса "Запомнить меня" */
+.auth-form label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.auth-form label input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+  margin-bottom: 0;
+}
+
+/* Стили для профиля пользователя */
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 8px 15px;
+  background: rgba(0, 123, 255, 0.1);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 123, 255, 0.2);
+}
+
+.user-profile span {
+  font-weight: 600;
+  color: #007bff;
+}
+
+.logout-btn {
+  padding: 6px 12px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.logout-btn:hover {
+  background: #c82333;
+}
+
+/* Для темной темы */
+body.dark-theme .user-profile {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #e2e8f0;
+}
+
+body.dark-theme .user-profile span {
+  color: #90cdf4;
+}
+
+body.dark-theme .logout-btn {
+  background: #e53e3e;
+}
+
+body.dark-theme .logout-btn:hover {
+  background: #c53030;
 }

@@ -10,6 +10,7 @@ const Menu = () => {
         <li><Link to="/lab2">Лабораторная 2</Link></li>
         <li><Link to="/counter-demo">useState/useEffect</Link></li>
         <li><Link to="/redux-demo">Redux</Link></li>
+        <li><Link to="/lab5">Лабораторная 5</Link></li>
       </ul>
     </div>
   );
