@@ -1,9 +1,16 @@
-const Menu = ({ onSelect }) => {
+import { Link } from 'react-router-dom';
+
+const Menu = () => {
   return (
     <div className="menu">
-      <h3>Список лабораторных работ</h3>
-      <button onClick={() => onSelect(1)}>Лабораторная 1</button>
-      <button onClick={() => onSelect(2)}>Лабораторная 2</button>
+      <h3>Лабораторные работы</h3>
+      <ul>
+        <li><Link to="/">Главная</Link></li>
+        <li><Link to="/lab1">Лабораторная 1</Link></li>
+        <li><Link to="/lab2">Лабораторная 2</Link></li>
+        <li><Link to="/counter-demo">useState/useEffect</Link></li>
+        <li><Link to="/redux-demo">Redux</Link></li>
+      </ul>
     </div>
   );
 };

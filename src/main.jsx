@@ -1,10 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Lab3App from './Lab3App';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ThemeProvider } from './context/ThemeContext';
+import { store } from './redux/store';
+import Lab4App from './Lab4App';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Lab3App /> {}
+    <BrowserRouter>
+      <Provider store={store}>
+        <ThemeProvider>
+          <Lab4App />
+        </ThemeProvider>
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>
 );

@@ -1,0 +1,47 @@
+.lab4-container {
+  padding: 20px;
+}
+
+.lab4-nav {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.lab4-nav a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #2563eb;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.lab4-nav a:hover {
+  background: #eff6ff;
+}
+
+.lab4-content {
+  margin-top: 20px;
+}
+
+.counter-page {
+  text-align: center;
+  padding: 40px;
+}
+
+.counter-btn {
+  padding: 15px 30px;
+  background: #8b5cf6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.counter-btn:hover {
+  background: #7c3aed;
+}

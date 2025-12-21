@@ -28,39 +28,41 @@
 .content { 
   flex: 1; 
   padding: 30px; 
-  background: white; 
+  background: #ffffff;
   border-left: 1px solid #e2e8f0;
-}
-.content h2 { 
-  color: #1e293b; 
-  margin-top: 0; 
-  font-weight: 700;
-  font-size: 28px;
-}
-.content p { 
-  color: #475569; 
-  line-height: 1.6;
-  font-weight: 500;
-  font-size: 16px;
-}
-
-.footer { 
-  background: #1e293b; 
-  color: #cbd5e5; 
-  padding: 15px; 
-  text-align: center; 
-  margin-top: auto;
-  font-weight: 500;
 }
 
 .lab2-demo {
   margin-top: 20px;
-  padding: 20px;
+  padding: 30px;
   background: #f8fafc;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
 }
 
-.lab2-demo h1 {
-  color: #000000 !important;
+
+.lab2-demo .app h1 {
+  color: #1e293b !important;
+  font-size: 32px;
+}
+
+.lab2-demo .container {
+  background: #ffffff; 
+  border: 2px solid #cbd5e1;
+}
+
+
+.lab-button {
+  padding: 12px 24px;
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.lab-button:hover {
+  background: #059669;
 }
