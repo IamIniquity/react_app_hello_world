@@ -1,22 +1,29 @@
-import './App.css';
-import Container from './components/Container';
-import Button from './components/Button';
+import { Routes, Route } from 'react-router-dom';
+import MainLayout from './navigation/MainLayout';
+import HomePage from './pages/HomePage';
+import Lab4Page from './pages/Lab4Page';
+import Lab4Content from './navigation/Lab4Content';
+import Lab5App from './Lab5App';
+import Lab6App from './Lab6App';
+import AboutPage from './pages/AboutPage';
+import CounterWithEffects from './components/CounterWithEffects';
 
-function App() {
+const App = () => {
   return (
-    <div className="app">
-      <h1>Hello World!</h1>
-      
-      <Container>
-        <h2>Навигация</h2>
-        <div className="button-group">
-          <Button>Главная</Button>
-          <Button>О Нас</Button>
-          <Button>Контакты</Button>
-        </div>
-      </Container>
-    </div>
+    <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="lab4" element={<Lab4Page />} /> {/* Страница выбора */}
+        <Route path="lab1" element={<Lab4Content />} />
+        <Route path="lab2" element={<Lab4Content />} />
+        <Route path="counter-demo" element={<CounterWithEffects />} />
+        <Route path="redux-demo" element={<Lab4Content />} />
+        <Route path="lab5" element={<Lab5App />} />
+        <Route path="lab6" element={<Lab6App />} />
+        <Route path="about" element={<AboutPage />} />
+      </Route>
+    </Routes>
   );
-}
+};
 
 export default App;

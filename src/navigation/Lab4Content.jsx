@@ -3,16 +3,14 @@ import Lab2App from '../Lab2App';
 import CounterWithEffects from '../components/CounterWithEffects';
 import ReduxCounter from '../components/ReduxCounter';
 
-const Content = () => {
+const Lab4Content = () => {
   const location = useLocation();
   
   const openFirstLab = () => {
     window.open('/first.html', '_blank');
   };
 
-  // ТОЛЬКО лабы 1-4:
-  
-  // Лаб1
+  // c 1 по 4 лаб
   if (location.pathname === '/lab1') {
     return (
       <div className="content">
@@ -25,7 +23,6 @@ const Content = () => {
     );
   }
 
-  // Лаб 2
   if (location.pathname === '/lab2') {
     return (
       <div className="content">
@@ -38,7 +35,6 @@ const Content = () => {
     );
   }
 
-  // счетчик
   if (location.pathname === '/counter-demo') {
     return (
       <div className="content">
@@ -49,7 +45,6 @@ const Content = () => {
     );
   }
 
-  // redux
   if (location.pathname === '/redux-demo') {
     return (
       <div className="content">
@@ -60,7 +55,6 @@ const Content = () => {
     );
   }
 
-  // Если не найден путь
   return (
     <div className="content">
       <h2>Страница не найдена</h2>
@@ -69,4 +63,4 @@ const Content = () => {
   );
 };
 
-export default Content;
+export default Lab4Content;

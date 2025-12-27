@@ -15,6 +15,14 @@
       "message": "Тест",
       "rating": 5,
       "date": "2024-01-15"
+    },
+    {
+      "id": "b545",
+      "name": "admin",
+      "email": "user@example.com",
+      "message": "privet",
+      "rating": 5,
+      "date": "2025-12-27T17:45:06.387Z"
     }
   ]
 }

@@ -4,8 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from './context/ThemeContext';
 import { store } from './redux/store';
-import Lab4App from './Lab4App';
-import Lab5App from './Lab5App';
+import App from './App';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -13,7 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Provider store={store}>
         <ThemeProvider>
-          <Lab4App />
+          <App />
         </ThemeProvider>
       </Provider>
     </BrowserRouter>

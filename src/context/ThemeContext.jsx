@@ -1,25 +1,42 @@
-import { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useMemo } from 'react';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { lightTheme, darkTheme } from '../theme/theme';
 
 const ThemeContext = createContext();
 
+export const useTheme = () => useContext(ThemeContext);
+
 export const ThemeProvider = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    //роверяем сохраненную тему или системную
+    const saved = localStorage.getItem('theme');
+    if (saved) return saved === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
 
   const toggleTheme = () => {
-    setIsDarkMode(prev => !prev);
+    setIsDarkMode(prev => {
+      const newMode = !prev;
+      localStorage.setItem('theme', newMode ? 'dark' : 'light');
+      return newMode;
+    });
   };
+
+  //выбор темы MUI
+  const theme = useMemo(() => 
+    isDarkMode ? darkTheme : lightTheme, 
+    [isDarkMode]
+  );
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
-      {children}
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className={isDarkMode ? 'dark-theme' : 'light-theme'}>
+          {children}
+        </div>
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   );
-};
-
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme должен использоваться внутри ThemeProvider');
-  }
-  return context;
 };
