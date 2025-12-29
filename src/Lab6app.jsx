@@ -3,7 +3,7 @@ import useLoginState from './hooks/useLoginState';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import FeedbackForm from './components/FeedbackForm';
-import FeedbackList from './components/FeedbackList';
+import FeedbackListReadOnly from './components/FeedbackListReadOnly';
 import EditProfileForm from './components/EditProfileForm';
 import UserProfile from './components/UserProfile';
 
@@ -55,7 +55,7 @@ const Lab6App = () => {
       
       <div className="feedback-section">
         <div className="form-section wide">
-          <FeedbackList />
+          <FeedbackListReadOnly />
         </div>
       </div>
     </div>

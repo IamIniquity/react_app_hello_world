@@ -27,6 +27,13 @@ export const updateUser = (id, userData) => {
   }).then(res => res.json());
 };
 
+// DELETE запрос на удаление пользователя
+export const deleteUser = (id) => {
+  return fetch(`${API_URL}/users/${id}`, {
+    method: 'DELETE'
+  }).then(res => res.json());
+};
+
 // DELETE запрос на удаление отзыва
 export const deleteFeedback = (id) => {
   return fetch(`${API_URL}/feedback/${id}`, {
@@ -42,4 +49,22 @@ export const loginUser = (credentials) => {
       if (users.length > 0) return users[0];
       throw new Error('Неверные данные');
     });
+};
+
+// PATCH запрос для обновления статуса пользователя (блокировка/разблокировка)
+export const updateUserStatus = (id, status) => {
+  return fetch(`${API_URL}/users/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status })
+  }).then(res => res.json());
+};
+
+// PATCH запрос для обновления статуса отзыва
+export const updateFeedbackStatus = (id, status) => {
+  return fetch(`${API_URL}/feedback/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status })
+  }).then(res => res.json());
 };

@@ -15,16 +15,21 @@ const RegisterForm = () => {
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert('Пароли не совпадают!');
+      alert('Пароли не совпадают');
       return;
     }
     if (password.length < 6) {
       alert('Пароль должен быть не менее 6 символов');
       return;
     }
-    dispatch(login({ username: email, name: name || email.split('@')[0] }));
-    alert('Регистрация успешна!');
-    navigate('/lab5');
+    dispatch(login({ 
+      username: email, 
+      name: name || email.split('@')[0],
+      role: 'user',
+      email
+    }));
+    alert('Регистрация успешна! Вы вошли как пользователь.');
+    navigate('/');
   }, [email, name, password, confirmPassword, dispatch, navigate]);
 
   const handleClear = () => {

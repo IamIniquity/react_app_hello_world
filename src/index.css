@@ -6,101 +6,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease;
 }
 
-/* Стили для форм*/
-.lab5-forms,
-.api-sections {
-  display: flex;
-  gap: 30px;
-  margin-top: 20px;
-}
-
-.form-section {
-  flex: 1;
-  border: 1px solid var(--mui-palette-divider, #ddd);
-  padding: 20px;
-  border-radius: 8px;
-  background-color: var(--mui-palette-background-paper, white);
-}
-
-/* Feedback список */
-.feedback-item {
-  border: 1px solid var(--mui-palette-divider, #eee);
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 6px;
-  background-color: var(--mui-palette-background-paper, #f9f9f9);
-}
-
-.feedback-rating {
-  color: #ffc107;
-  font-size: 18px;
-  margin-bottom: 5px;
-}
-
-.feedback-message {
-  margin: 10px 0;
-  font-style: italic;
-  color: var(--mui-palette-text-primary, #333);
-}
-
-.feedback-author {
-  font-weight: bold;
-  color: var(--mui-palette-text-secondary, #666);
-}
-
-.feedback-date {
-  font-size: 12px;
-  color: var(--mui-palette-text-disabled, #999);
-  margin-top: 5px;
-}
-
-/* Пользовательский профиль  */
-.user-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* Кнопки */
-.delete-btn {
-  padding: 4px 8px;
-  background: #ff6b6b;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.delete-btn:hover {
-  background: #ff4757;
-}
-
-/* Шапка */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-}
-
-/* Сообщения */
-.welcome-message {
-  background: #d4edda;
-  padding: 15px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  color: #155724;
-}
-
-/* Адаптивность */
+/* Адаптивность для Lab5 и Lab6 */
 @media (max-width: 768px) {
   .lab5-forms,
-  .api-sections,
-  .feedback-section {
+  .api-sections {
     flex-direction: column;
     gap: 20px;
   }

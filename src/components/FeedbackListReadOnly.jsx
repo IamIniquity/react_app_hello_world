@@ -1,37 +1,20 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchFeedback, removeFeedback } from '../redux/slices/apiSlice';
-import { 
-  Box, 
-  Typography, 
-  Card, 
-  CardContent, 
-  IconButton, 
-  Button,
-  Chip,
-  Rating 
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { fetchFeedback } from '../redux/slices/apiSlice';
+import { Box, Typography, Card, CardContent, Rating, Button, Chip } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import StarIcon from '@mui/icons-material/Star';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
-const FeedbackList = () => {
+const FeedbackListReadOnly = () => {
   const dispatch = useDispatch();
-  const { feedback, loading } = useSelector((state) => state.api);
-  const user = useSelector((state) => state.auth.user);
+  const { feedback } = useSelector((state) => state.api);
   const [sortType, setSortType] = useState('dateDesc'); // dateAsc, dateDesc, ratingAsc, ratingDesc
 
   useEffect(() => {
     dispatch(fetchFeedback());
   }, [dispatch]);
-
-  const handleDelete = (id) => {
-    if (window.confirm('Удалить этот отзыв?')) {
-      dispatch(removeFeedback(id));
-    }
-  };
 
   const sortedFeedback = useMemo(() => {
     const approved = feedback.filter(item => item.status === 'approved');
@@ -47,15 +30,14 @@ const FeedbackList = () => {
     });
   }, [feedback, sortType]);
 
-  if (loading) return <Typography>Загрузка отзывов...</Typography>;
-  if (!sortedFeedback.length) return <Typography>Отзывов пока нет</Typography>;
+  if (!sortedFeedback.length) {
+    return <Typography>Нет одобренных отзывов</Typography>;
+  }
 
   return (
     <Box>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-        <Typography variant="h6" gutterBottom>
-          Отзывы ({sortedFeedback.length})
-        </Typography>
+        <Typography variant="h6">Отзывы ({sortedFeedback.length})</Typography>
         <Box sx={{ display: 'flex', gap: 1 }}>
           <Button 
             size="small" 
@@ -95,32 +77,25 @@ const FeedbackList = () => {
           </Button>
         </Box>
       </Box>
-      
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        {sortedFeedback.map(item => (
-          <Card key={item.id} variant="outlined">
-            <CardContent>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                <Rating value={item.rating} readOnly size="small" />
-                {user?.role === 'admin' && (
-                  <IconButton size="small" onClick={() => handleDelete(item.id)}>
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
-                )}
-              </Box>
-              <Typography sx={{ mt: 1 }}>{item.message}</Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                {item.name} ({item.email})
+
+      {sortedFeedback.map(item => (
+        <Card key={item.id} sx={{ mb: 2 }}>
+          <CardContent>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+              <Rating value={item.rating} readOnly size="small" />
+              <Typography variant="caption" color="text.secondary">
+                {new Date(item.date).toLocaleDateString()}
               </Typography>
-              <Typography variant="caption" display="block" sx={{ mt: 0.5 }}>
-                {new Date(item.date).toLocaleString()}
-              </Typography>
-            </CardContent>
-          </Card>
-        ))}
-      </Box>
+            </Box>
+            <Typography>{item.message}</Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              — {item.name}
+            </Typography>
+          </CardContent>
+        </Card>
+      ))}
     </Box>
   );
 };
 
-export default FeedbackList;
+export default FeedbackListReadOnly;

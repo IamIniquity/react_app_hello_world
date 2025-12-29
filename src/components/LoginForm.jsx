@@ -14,9 +14,28 @@ const LoginForm = () => {
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
     if (username === 'admin' && password === 'admin') {
-      dispatch(login({ username, password, rememberMe }));
+      dispatch(login({ 
+        username, 
+        password, 
+        rememberMe,
+        role: 'admin',
+        name: 'Администратор',
+        email: 'admin@example.com'
+      }));
+      alert('Успешная авторизация (админ)');
+      navigate('/');
+      window.location.reload();
+    } else if (username === 'user' && password === 'user') {
+      dispatch(login({ 
+        username, 
+        password, 
+        rememberMe,
+        role: 'user',
+        name: 'Пользователь',
+        email: 'user@example.com'
+      }));
       alert('Успешная авторизация');
-      navigate('/lab5');
+      navigate('/');
       window.location.reload();
     } else {
       alert('Неверное имя пользователя или пароль');
@@ -71,6 +90,11 @@ const LoginForm = () => {
       <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
         <Button type="submit" variant="contained" fullWidth>Войти</Button>
         <Button type="button" variant="outlined" onClick={handleClear} fullWidth>Очистить</Button>
+      </Box>
+      <Box sx={{ mt: 2, fontSize: '0.8rem', color: 'text.secondary' }}>
+        <div>Тестовые аккаунты:</div>
+        <div>• admin / admin (администратор)</div>
+        <div>• user / user (пользователь)</div>
       </Box>
     </Box>
   );

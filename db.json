@@ -3,26 +3,61 @@
     {
       "id": "1",
       "username": "admin",
-      "email": "admin@gmail.com",
-      "name": "Администратор"
+      "email": "admin@example.com",
+      "name": "Администратор",
+      "password": "admin",
+      "role": "admin",
+      "status": "active",
+      "createdAt": "2025-05-01"
+    },
+    {
+      "id": "2",
+      "username": "user1",
+      "email": "user1@example.com",
+      "name": "Пользователь 1",
+      "password": "user1",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2025-05-02"
     }
   ],
   "feedback": [
     {
       "id": "1",
+      "userId": 2,
       "name": "Иван Иванов",
-      "email": "ivanovvanya@gmail.com",
-      "message": "Тест",
+      "email": "ivan@example.com",
+      "message": "тест",
       "rating": 5,
-      "date": "2024-01-15"
+      "status": "approved",
+      "date": "2025-10-15T10:30:00Z"
     },
     {
-      "id": "b545",
-      "name": "admin",
+      "id": "cacb",
+      "name": "Администратор",
+      "email": "admin@example.com",
+      "message": "еще тест",
+      "rating": 3,
+      "date": "2025-12-29T06:47:54.639Z",
+      "status": "approved"
+    },
+    {
+      "id": "ac49",
+      "name": "Пользователь",
       "email": "user@example.com",
-      "message": "privet",
+      "message": "он не должен появиться пока я не одобрю через админа",
+      "rating": 3,
+      "date": "2025-12-29T06:52:22.616Z",
+      "status": "approved"
+    },
+    {
+      "id": "2989",
+      "name": "Пользователь",
+      "email": "user@example.com",
+      "message": "публикация после модерации",
       "rating": 5,
-      "date": "2025-12-27T17:45:06.387Z"
+      "status": "pending",
+      "date": "2025-12-29T07:02:06.616Z"
     }
   ]
 }

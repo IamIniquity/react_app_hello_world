@@ -7,7 +7,7 @@ const HomePage = () => {
     { num: 1, title: 'HTML страница', path: '/lab1' },
     { num: 2, title: 'React приложение', path: '/lab2' },
     { num: 4, title: 'Состояние и Redux', path: '/lab4' }, // Лаба 4
-    { num: 5, title: 'Формы', path: '/lab5' },
+    { num: 5, title: 'Авторизация и отзывы', path: '/lab5' },
     { num: 6, title: 'REST API', path: '/lab6' },
     { num: 7, title: 'UI Kit', path: '/' },
   ];
