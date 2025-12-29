@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './slices/counterSlice';
 import authReducer from './slices/authSlice';
 import apiReducer from './slices/apiSlice';
+import { rtkApi } from './api/rtkApi';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     auth: authReducer,
-    api: apiReducer,
+    api: apiReducer, // старый
+    [rtkApi.reducerPath]: rtkApi.reducer, // новый
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(rtkApi.middleware),
 });

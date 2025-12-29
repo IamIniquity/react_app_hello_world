@@ -1,30 +1,73 @@
-import React, { useMemo, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useReactTable, getCoreRowModel, getSortedRowModel, flexRender } from '@tanstack/react-table';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Chip, Rating } from '@mui/material';
+import React, { useMemo, useState } from 'react';
+import { 
+  useReactTable, 
+  getCoreRowModel, 
+  getSortedRowModel, 
+  flexRender 
+} from '@tanstack/react-table';
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableContainer, 
+  TableHead, 
+  TableRow, 
+  Paper, 
+  IconButton, 
+  Chip, 
+  Rating, 
+  CircularProgress,
+  Alert,
+  Box
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PendingIcon from '@mui/icons-material/Pending';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { fetchFeedback, removeFeedback, updateFeedbackStatus } from '../../redux/slices/apiSlice';
+import { 
+  useGetFeedbackQuery,
+  useDeleteFeedbackMutation,
+  useUpdateFeedbackStatusMutation 
+} from "../../redux/api/rtkApi";
 
 const FeedbackTable = () => {
-  const dispatch = useDispatch();
-  const { feedback } = useSelector((state) => state.api);
   const [sorting, setSorting] = useState([]);
+  
+  // RTK Query
+  const { 
+    data: feedback = [], 
+    isLoading, 
+    isError, 
+    error 
+  } = useGetFeedbackQuery();
+  
+  const [deleteFeedback] = useDeleteFeedbackMutation();
+  const [updateFeedbackStatus] = useUpdateFeedbackStatusMutation();
 
-  useEffect(() => {
-    dispatch(fetchFeedback());
-  }, [dispatch]);
-
-  const handleDelete = (id) => {
-    if (window.confirm('Удалить отзыв?')) {
-      dispatch(removeFeedback(id));
+  const handleDelete = async (id, name) => {
+    if (window.confirm(`Удалить отзыв от "${name}"?`)) {
+      try {
+        await deleteFeedback(id).unwrap();
+      } catch (err) {
+        console.error('Ошибка удаления:', err);
+      }
     }
   };
 
-  const handleStatusChange = (id, newStatus) => {
-    dispatch(updateFeedbackStatus({ id, status: newStatus }));
+  const handleStatusChange = async (id, newStatus, currentStatus) => {
+    const statusMessages = {
+      approved: 'одобрить',
+      rejected: 'отклонить',
+      pending: 'вернуть на рассмотрение'
+    };
+    
+    if (window.confirm(`Вы уверены, что хотите ${statusMessages[newStatus]} этот отзыв?`)) {
+      try {
+        await updateFeedbackStatus({ id, status: newStatus }).unwrap();
+      } catch (err) {
+        console.error('Ошибка изменения статуса:', err);
+      }
+    }
   };
 
   const columns = useMemo(() => [
@@ -58,28 +101,29 @@ const FeedbackTable = () => {
         return <Chip label={config.label} color={config.color} size="small" />;
       }
     },
+    { accessorKey: 'date', header: 'Дата' },
     {
       id: 'actions',
       header: 'Действия',
       cell: ({ row }) => {
-        const item = row.original;
+        const feedbackItem = row.original;
         return (
           <>
-            <IconButton size="small" onClick={() => handleDelete(item.id)}>
+            <IconButton size="small" onClick={() => handleDelete(feedbackItem.id, feedbackItem.name)}>
               <DeleteIcon fontSize="small" />
             </IconButton>
-            {item.status !== 'approved' && (
-              <IconButton size="small" onClick={() => handleStatusChange(item.id, 'approved')}>
+            {feedbackItem.status !== 'approved' && (
+              <IconButton size="small" onClick={() => handleStatusChange(feedbackItem.id, 'approved', feedbackItem.status)}>
                 <CheckCircleIcon fontSize="small" color="success" />
               </IconButton>
             )}
-            {item.status !== 'rejected' && (
-              <IconButton size="small" onClick={() => handleStatusChange(item.id, 'rejected')}>
+            {feedbackItem.status !== 'rejected' && (
+              <IconButton size="small" onClick={() => handleStatusChange(feedbackItem.id, 'rejected', feedbackItem.status)}>
                 <CancelIcon fontSize="small" color="error" />
               </IconButton>
             )}
-            {item.status !== 'pending' && (
-              <IconButton size="small" onClick={() => handleStatusChange(item.id, 'pending')}>
+            {feedbackItem.status !== 'pending' && (
+              <IconButton size="small" onClick={() => handleStatusChange(feedbackItem.id, 'pending', feedbackItem.status)}>
                 <PendingIcon fontSize="small" color="warning" />
               </IconButton>
             )}
@@ -97,6 +141,23 @@ const FeedbackTable = () => {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
   });
+
+  // Состояния загрузки
+  if (isLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Alert severity="error" sx={{ mt: 2 }}>
+        Ошибка загрузки отзывов: {error?.data?.message || error?.message}
+      </Alert>
+    );
+  }
 
   return (
     <TableContainer component={Paper}>

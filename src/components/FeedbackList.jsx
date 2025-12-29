@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchFeedback, removeFeedback } from '../redux/slices/apiSlice';
+import React, { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { 
   Box, 
   Typography, 
@@ -8,28 +7,41 @@ import {
   CardContent, 
   IconButton, 
   Button,
-  Chip,
-  Rating 
+  Rating,
+  CircularProgress,
+  Alert
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import StarIcon from '@mui/icons-material/Star';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { 
+  useGetFeedbackQuery, 
+  useDeleteFeedbackMutation 
+} from '../redux/api/rtkApi';
 
 const FeedbackList = () => {
-  const dispatch = useDispatch();
-  const { feedback, loading } = useSelector((state) => state.api);
   const user = useSelector((state) => state.auth.user);
-  const [sortType, setSortType] = useState('dateDesc'); // dateAsc, dateDesc, ratingAsc, ratingDesc
+  const [sortType, setSortType] = useState('dateDesc');
+  
+  // RTK Query
+  const { 
+    data: feedback = [], 
+    isLoading, 
+    isError, 
+    error 
+  } = useGetFeedbackQuery();
+  
+  const [deleteFeedback] = useDeleteFeedbackMutation();
 
-  useEffect(() => {
-    dispatch(fetchFeedback());
-  }, [dispatch]);
-
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm('Удалить этот отзыв?')) {
-      dispatch(removeFeedback(id));
+      try {
+        await deleteFeedback(id).unwrap();
+      } catch (err) {
+        console.error('Ошибка удаления:', err);
+      }
     }
   };
 
@@ -47,8 +59,30 @@ const FeedbackList = () => {
     });
   }, [feedback, sortType]);
 
-  if (loading) return <Typography>Загрузка отзывов...</Typography>;
-  if (!sortedFeedback.length) return <Typography>Отзывов пока нет</Typography>;
+  // Состояния загрузки
+  if (isLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Alert severity="error" sx={{ mt: 2 }}>
+        Ошибка загрузки отзывов: {error?.data?.message || error?.message}
+      </Alert>
+    );
+  }
+
+  if (!sortedFeedback.length) {
+    return (
+      <Alert severity="info" sx={{ mt: 2 }}>
+        Отзывов пока нет
+      </Alert>
+    );
+  }
 
   return (
     <Box>

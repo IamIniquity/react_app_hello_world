@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addFeedback } from '../redux/slices/apiSlice';
+import { useSelector } from 'react-redux';
 import { 
   TextField, 
   Button, 
@@ -10,21 +9,24 @@ import {
   InputLabel, 
   Box, 
   Alert,
-  Snackbar 
+  Snackbar,
+  CircularProgress
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useAddFeedbackMutation } from '../redux/api/rtkApi';
 
 const FeedbackForm = () => {
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [message, setMessage] = useState('');
   const [rating, setRating] = useState(5);
-  const [snackbar, setSnackbar] = useState({ open: false, message: '' });
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+  
+  const [addFeedback, { isLoading }] = useAddFeedbackMutation();
 
-  const handleSubmit = useCallback((e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     if (!message.trim()) {
-      alert('Введите сообщение!');
+      alert('Введите сообщение');
       return;
     }
 
@@ -33,28 +35,28 @@ const FeedbackForm = () => {
       email: user?.email || 'user@example.com',
       message: message.trim(),
       rating,
-      status: 'pending', // Статус "на рассмотрении"
+      status: 'pending',
       date: new Date().toISOString(),
       userId: user?.id
     };
 
-    dispatch(addFeedback(feedbackData))
-      .then(() => {
-        setSnackbar({ 
-          open: true, 
-          message: 'Отзыв отправлен на модерацию. Он появится после одобрения администратором.' 
-        });
-        setMessage('');
-        setRating(5);
-      })
-      .catch(() => {
-        setSnackbar({ 
-          open: true, 
-          message: 'Ошибка при отправке отзыва',
-          severity: 'error'
-        });
+    try {
+      await addFeedback(feedbackData).unwrap();
+      setSnackbar({ 
+        open: true, 
+        message: 'Отзыв отправлен на модерацию. Он появится после одобрения администратором.' 
       });
-  }, [message, rating, user, dispatch]);
+      setMessage('');
+      setRating(5);
+    } catch (error) {
+      console.error('Ошибка отправки:', error);
+      setSnackbar({ 
+        open: true, 
+        message: 'Ошибка при отправке отзыва',
+        severity: 'error'
+      });
+    }
+  }, [message, rating, user, addFeedback]);
 
   const handleClear = () => {
     setMessage('');
@@ -98,8 +100,13 @@ const FeedbackForm = () => {
       />
       
       <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
-        <Button type="submit" variant="contained" fullWidth>
-          Отправить на модерацию
+        <Button 
+          type="submit" 
+          variant="contained" 
+          fullWidth
+          disabled={isLoading}
+        >
+          {isLoading ? <CircularProgress size={24} /> : 'Отправить на модерацию'}
         </Button>
         <Button type="button" variant="outlined" onClick={handleClear} fullWidth>
           Очистить

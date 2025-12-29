@@ -1,20 +1,30 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchFeedback } from '../redux/slices/apiSlice';
-import { Box, Typography, Card, CardContent, Rating, Button, Chip } from '@mui/material';
+import React, { useMemo, useState } from 'react';
+import { 
+  Box, 
+  Typography, 
+  Card, 
+  CardContent, 
+  Rating, 
+  Button, 
+  CircularProgress,
+  Alert
+} from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import StarIcon from '@mui/icons-material/Star';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { useGetFeedbackQuery } from '../redux/api/rtkApi';
 
 const FeedbackListReadOnly = () => {
-  const dispatch = useDispatch();
-  const { feedback } = useSelector((state) => state.api);
-  const [sortType, setSortType] = useState('dateDesc'); // dateAsc, dateDesc, ratingAsc, ratingDesc
-
-  useEffect(() => {
-    dispatch(fetchFeedback());
-  }, [dispatch]);
+  const [sortType, setSortType] = useState('dateDesc');
+  
+  // RTK Query хук
+  const { 
+    data: feedback = [], 
+    isLoading, 
+    isError, 
+    error 
+  } = useGetFeedbackQuery();
 
   const sortedFeedback = useMemo(() => {
     const approved = feedback.filter(item => item.status === 'approved');
@@ -30,8 +40,29 @@ const FeedbackListReadOnly = () => {
     });
   }, [feedback, sortType]);
 
+  // Состояния загрузки
+  if (isLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Alert severity="error" sx={{ mt: 2 }}>
+        Ошибка загрузки отзывов: {error?.data?.message || error?.message}
+      </Alert>
+    );
+  }
+
   if (!sortedFeedback.length) {
-    return <Typography>Нет одобренных отзывов</Typography>;
+    return (
+      <Alert severity="info" sx={{ mt: 2 }}>
+        Нет одобренных отзывов
+      </Alert>
+    );
   }
 
   return (

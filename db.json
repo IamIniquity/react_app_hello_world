@@ -58,6 +58,24 @@
       "rating": 5,
       "status": "pending",
       "date": "2025-12-29T07:02:06.616Z"
+    },
+    {
+      "id": "5ca5",
+      "name": "Администратор",
+      "email": "admin@example.com",
+      "message": "тест для лабы 9",
+      "rating": 1,
+      "status": "pending",
+      "date": "2025-12-29T16:54:36.328Z"
+    },
+    {
+      "id": "087e",
+      "name": "Администратор",
+      "email": "admin@example.com",
+      "message": "тестовый тест",
+      "rating": 3,
+      "status": "approved",
+      "date": "2025-12-29T17:02:03.768Z"
     }
   ]
 }
